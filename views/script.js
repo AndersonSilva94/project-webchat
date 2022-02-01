@@ -14,7 +14,7 @@ buttonMsg.addEventListener('click', (e) => {
   if (msg.value) {
     const msgObj = {
       chatMessage: msg.value,
-      username,
+      nickname: username,
     };
     io.emit('message', msgObj);
     msg.value = '';

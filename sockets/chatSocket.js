@@ -9,9 +9,9 @@ const chatSocket = (server) => {
     listUsers.push(getNewNickname);
     server.emit('new-connection', { listUsers, newUser: getNewNickname });
 
-    socket.on('message', ({ chatMessage, username }) => {
+    socket.on('message', ({ chatMessage, nickname }) => {
       const date = getDateAndHour();
-      const userMessage = `${date} - ${username}: ${chatMessage}`;
+      const userMessage = `${date} - ${nickname}: ${chatMessage}`;
       server.emit('message', userMessage);
     });
 
