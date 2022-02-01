@@ -6,15 +6,15 @@ const msgs = document.getElementById('messages');
 const buttonUser = document.getElementById('button-user');
 const user = document.getElementById('username');
 const onlineUsers = document.getElementById('online-users');
+let nickUser = '';
 
 buttonMsg.addEventListener('click', (e) => {
   e.preventDefault();
-  const username = sessionStorage.getItem('user');
 
   if (msg.value) {
     const msgObj = {
       chatMessage: msg.value,
-      nickname: username,
+      nickname: nickUser,
     };
     io.emit('message', msgObj);
     msg.value = '';
@@ -43,6 +43,7 @@ const createListUsers = (listUser) => {
       if (id === io.id) {
         onlineUsers.prepend(createActiveUser(nickname));
         sessionStorage.setItem('user', id);
+        nickUser = nickname;
       } else {
         onlineUsers.appendChild(createActiveUser(nickname));
       }
