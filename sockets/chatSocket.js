@@ -1,7 +1,15 @@
 const getDateAndHour = require('../utils/getDateAndHour');
 const getRandomNickname = require('../utils/getRandomNickname');
 
-const listUsers = [];
+let listUsers = [];
+
+const message = (server, nickname, chatMessage) => {
+  const date = getDateAndHour();
+  const userMessage = `${date} - ${nickname}: ${chatMessage}`;
+  server.emit('message', userMessage);
+};
+
+const changeUser = 'change-user';
 
 const chatSocket = (server) => {
   server.on('connection', (socket) => {
@@ -10,16 +18,19 @@ const chatSocket = (server) => {
     server.emit('new-connection', listUsers);
 
     socket.on('message', ({ chatMessage, nickname }) => {
-      const date = getDateAndHour();
-      const userMessage = `${date} - ${nickname}: ${chatMessage}`;
-      server.emit('message', userMessage);
+      message(server, nickname, chatMessage);
     });
 
-    socket.on('change-user', ({ idUser, newNick }) => {
+    socket.on(changeUser, ({ idUser, newNick }) => {
       const findUser = listUsers.findIndex((user) => idUser === user.id);
       console.log(findUser);
       listUsers[findUser].nickname = newNick;
-      server.emit('change-user', listUsers);
+      server.emit(changeUser, listUsers);
+    });
+    
+    socket.on('disconnect', () => {
+      listUsers = listUsers.filter(({ id }) => id !== socket.id);
+      server.emit(changeUser, listUsers);
     });
   });
 };
