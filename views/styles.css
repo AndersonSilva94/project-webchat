@@ -4,11 +4,11 @@
   padding: 0;
 }
 
-html, body {
+html , body {
   height: 100%;
 }
 
-#chat {
+.chat {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@ html, body {
   width: 60vw;
 }
 
-#message, #username {
+.message , .username {
   border: 1px solid #ddd;
   font-size: 1.5rem;
   height: 5rem;
@@ -38,7 +38,7 @@ button {
   border: none;
   color: white;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 700;
   height: 5rem;
   text-align: center;
   width: 20%;
@@ -50,9 +50,9 @@ button:hover {
 }
 
 .messages {
-  width: 60vw;
+  border: 1px solid #ddd;
   height: 40vw;
   margin: 2rem 0;
-  border: 1px solid #ddd;
   padding: 2rem;
+  width: 60vw;
 }
