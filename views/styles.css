@@ -14,7 +14,15 @@ html , body {
   flex-direction: column;
   height: 100%;
   justify-content: center;
+  margin-top: 50px;
   padding: 2rem;
+}
+
+.main-section {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  width: 60vw;
 }
 
 .div-input-button {
@@ -49,10 +57,17 @@ button:hover {
   opacity: 0.8;
 }
 
-.messages {
+.messages , .online-users {
   border: 1px solid #ddd;
   height: 40vw;
   margin: 2rem 0;
   padding: 2rem;
-  width: 60vw;
+}
+
+.messages {
+  width: 70%;
+}
+
+.online-users {
+  width: 25%;
 }
