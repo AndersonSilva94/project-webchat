@@ -6,8 +6,8 @@ const listUsers = [];
 const chatSocket = (server) => {
   server.on('connection', (socket) => {
     const getNewNickname = getRandomNickname(socket.id);
-    listUsers.push(getNewNickname);
-    server.emit('new-connection', { listUsers, newUser: getNewNickname });
+    listUsers.push({ nickname: getNewNickname, id: socket.id });
+    server.emit('new-connection', listUsers);
 
     socket.on('message', ({ chatMessage, nickname }) => {
       const date = getDateAndHour();
@@ -15,9 +15,10 @@ const chatSocket = (server) => {
       server.emit('message', userMessage);
     });
 
-    socket.on('change-user', ({ username, newNick }) => {
-      const findUser = listUsers.findIndex((user) => username === user);
-      listUsers[findUser] = newNick;
+    socket.on('change-user', ({ idUser, newNick }) => {
+      const findUser = listUsers.findIndex((user) => idUser === user.id);
+      console.log(findUser);
+      listUsers[findUser].nickname = newNick;
       server.emit('change-user', listUsers);
     });
   });

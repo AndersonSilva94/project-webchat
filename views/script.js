@@ -29,32 +29,39 @@ io.on('message', (userMessage) => {
   msgs.appendChild(newMsg);
 });
 
+const createActiveUser = (nick) => {
+  const newUser = document.createElement('p');
+  newUser.innerText = nick;
+  newUser.style.marginBottom = '10px';
+  newUser.setAttribute('data-testid', 'online-user');
+  return newUser;
+};
+
 const createListUsers = (listUser) => {
   onlineUsers.innerHTML = '';
-  listUser.forEach((nick) => {
-    const newUser = document.createElement('p');
-    newUser.innerText = nick;
-    newUser.style.marginBottom = '10px';
-    newUser.setAttribute('data-testid', 'online-user');
-    onlineUsers.appendChild(newUser);
+  listUser.forEach(({ id, nickname }) => {
+      if (id === io.id) {
+        onlineUsers.prepend(createActiveUser(nickname));
+        sessionStorage.setItem('user', id);
+      } else {
+        onlineUsers.appendChild(createActiveUser(nickname));
+      }
   });
 };
 
-io.on('new-connection', ({ listUsers, newUser }) => {
-  sessionStorage.setItem('user', newUser);
+io.on('new-connection', (listUsers) => {
   createListUsers(listUsers);
 });
 
 buttonUser.addEventListener('click', (e) => {
   e.preventDefault();
-  const username = sessionStorage.getItem('user');
+  const idUser = sessionStorage.getItem('user');
 
   if (user.value) {
     const userObj = {
-      username,
+      idUser,
       newNick: user.value,
     };
-    sessionStorage.setItem('user', userObj.newNick);
     io.emit('change-user', userObj);
     user.value = '';
   }
