@@ -11,7 +11,11 @@
 <body>
   <form id="chat" class="chat">
     <div class="main-section">
-      <div class="messages" id="messages"></div>
+      <div class="messages" id="messages">
+        <% messages.forEach(({ message, nickname, timestamp }) => { %>
+          <p><%= timestamp %> - <%= nickname %>: <%= message %></p>
+        <% }) %>
+      </div>
       <div class="online-users" id="online-users"></div>
     </div>
     <div class="div-input-button">
