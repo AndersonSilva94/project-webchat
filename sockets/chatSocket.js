@@ -1,10 +1,12 @@
+const { chatModel } = require('../models');
 const getDateAndHour = require('../utils/getDateAndHour');
 const getRandomNickname = require('../utils/getRandomNickname');
 
 let listUsers = [];
 
-const message = (server, nickname, chatMessage) => {
+const message = async (server, nickname, chatMessage) => {
   const date = getDateAndHour();
+  await chatModel.createMessage({ message: chatMessage, nickname, timestamp: date });
   const userMessage = `${date} - ${nickname}: ${chatMessage}`;
   server.emit('message', userMessage);
 };
@@ -17,13 +19,12 @@ const chatSocket = (server) => {
     listUsers.push({ nickname: getNewNickname, id: socket.id });
     server.emit('new-connection', listUsers);
 
-    socket.on('message', ({ chatMessage, nickname }) => {
-      message(server, nickname, chatMessage);
+    socket.on('message', async ({ chatMessage, nickname }) => {
+      await message(server, nickname, chatMessage);
     });
 
     socket.on(changeUser, ({ idUser, newNick }) => {
       const findUser = listUsers.findIndex((user) => idUser === user.id);
-      console.log(findUser);
       listUsers[findUser].nickname = newNick;
       server.emit(changeUser, listUsers);
     });

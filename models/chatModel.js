@@ -6,7 +6,7 @@ const getAll = async () => {
   return getMessages;
 };
 
-const createMessage = async (message, nickname, timestamp) => {
+const createMessage = async ({ message, nickname, timestamp }) => {
   const db = await connection();
   await db.collection('messages').insertOne({
     message,

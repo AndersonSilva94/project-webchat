@@ -13,7 +13,9 @@
     <div class="main-section">
       <div class="messages" id="messages">
         <% messages.forEach(({ message, nickname, timestamp }) => { %>
-          <p><%= timestamp %> - <%= nickname %>: <%= message %></p>
+          <p style="margin-bottom: 10px;" data-testid="message">
+            <%= timestamp %> - <%= nickname %>: <%= message %>
+          </p>
         <% }) %>
       </div>
       <div class="online-users" id="online-users"></div>
