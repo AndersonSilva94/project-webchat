@@ -25,7 +25,7 @@ io.on('new-connection', (listUser) => {
   onlineUsers.innerHTML = '';
   listUser.forEach(({ nick }) => {
     const newUser = document.createElement('p');
-    newUser.innerText = `${nick} connected`;
+    newUser.innerText = nick;
     newUser.style.marginBottom = '10px';
     newUser.setAttribute('data-testid', 'online-user');
     onlineUsers.appendChild(newUser);

@@ -16,7 +16,7 @@ const chatSocket = (server) => {
       // console.log(chatMessage, nickname);
       const date = getDateAndHour();
       const userMessage = `${date} - ${nickname}: ${chatMessage}`;
-      console.log(socket.id);
+      // console.log(socket.id);
       server.emit('message', userMessage);
     });
   });
